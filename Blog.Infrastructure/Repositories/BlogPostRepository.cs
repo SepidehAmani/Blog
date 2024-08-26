@@ -1,11 +1,12 @@
-﻿using Blog.Domain.Entities;
+﻿using Blog.Domain.DependencyInjection;
+using Blog.Domain.Entities;
 using Blog.Domain.IRepositories;
 using Blog.Infrastructure.DBContext;
 using System.Linq.Expressions;
 
 namespace Blog.Infrastructure.Repositories;
 
-public class BlogPostRepository : IBlogPostRepository
+public class BlogPostRepository : IBlogPostRepository,IScopedDependency
 {
     private readonly BlogDbContext _context;
 
