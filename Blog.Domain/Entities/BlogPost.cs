@@ -5,7 +5,7 @@ namespace Blog.Domain.Entities;
 
 public class BlogPost : IEntity
 {
-    public BlogPost(string title,string description,IBlogPostRepository blogPostRepository)
+    public BlogPost(string title,string description, IBlogPostRepository blogPostRepository)
     {
         SetTitle(title, blogPostRepository);
         Description = description;

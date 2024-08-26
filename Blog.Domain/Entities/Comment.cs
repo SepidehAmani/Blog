@@ -5,7 +5,7 @@ namespace Blog.Domain.Entities;
 
 public class Comment : IEntity
 {
-    public Comment(int blogPostId,string userName,string context,IBlogPostRepository blogPostRepository)
+    public Comment(int blogPostId,string userName,string context, IBlogPostRepository blogPostRepository)
     {
         SetBlogPostId(blogPostId, blogPostRepository);
         UserName = userName;

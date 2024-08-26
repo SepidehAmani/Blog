@@ -23,7 +23,7 @@ public class BlogDbContext : DbContext
 
     private void RegisterEntities(ModelBuilder builder)
     {
-        var entityAssembly = Assembly.Load(nameof(Blog.Domain));
+        var entityAssembly = Assembly.Load("Blog.Domain");
         var entityTypes = entityAssembly.GetTypes()
             .Where(t => typeof(IEntity).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract);
 
