@@ -10,4 +10,9 @@
     <ProjectReference Include="..\Blog.Domain\Blog.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\BlogPost\Command\" />
+    <Folder Include="Features\BlogPost\Query\" />
+  </ItemGroup>
+
 </Project>

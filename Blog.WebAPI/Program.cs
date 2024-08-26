@@ -1,7 +1,9 @@
 
 using Blog.Infrastructure.DBContext;
+using Blog.WebAPI.ExceptionHandler;
 using Blog.WebAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System;
 
 namespace Blog.WebAPI
@@ -12,10 +14,16 @@ namespace Blog.WebAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Host.UseSerilog((context, services, configuration) => configuration
+                .ReadFrom.Configuration(context.Configuration));
+
             // Add services to the container.
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
 
             builder.Services.RegisterServices();
 
