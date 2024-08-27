@@ -11,6 +11,6 @@ public class BlogPostConfiguration : IEntityTypeConfiguration<BlogPost>
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Title).IsRequired().HasMaxLength(50);
         builder.Property(x => x.Description).IsRequired().HasMaxLength(500);
-        builder.HasMany<Comment>().WithOne().HasForeignKey(x => x.BlogPostId);
+        builder.HasMany(a=>a.Comments).WithOne().HasForeignKey(x => x.BlogPostId);
     }
 }

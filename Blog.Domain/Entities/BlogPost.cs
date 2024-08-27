@@ -11,6 +11,10 @@ public class BlogPost : IEntity
         Description = description;
     }
 
+    protected BlogPost()
+    {        
+    }
+
     public int Id { get; set; }
     public string Title { get; private set; }
     public string Description { get; set; }

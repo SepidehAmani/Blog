@@ -12,6 +12,10 @@ public class Comment : IEntity
         Context = context;
     }
 
+    protected Comment()
+    {
+    }
+
     public int Id { get; set; }
     public string UserName { get; set; }
     public string Context { get; set; }

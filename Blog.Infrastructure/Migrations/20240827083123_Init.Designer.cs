@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Infrastructure.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20240826091703_Initial")]
-    partial class Initial
+    [Migration("20240827083123_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,9 +62,6 @@ namespace Blog.Infrastructure.Migrations
                     b.Property<int>("BlogPostId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("BlogPostId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Context")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -82,22 +79,16 @@ namespace Blog.Infrastructure.Migrations
 
                     b.HasIndex("BlogPostId");
 
-                    b.HasIndex("BlogPostId1");
-
                     b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("Blog.Domain.Entities.Comment", b =>
                 {
                     b.HasOne("Blog.Domain.Entities.BlogPost", null)
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("BlogPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Blog.Domain.Entities.BlogPost", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("BlogPostId1");
                 });
 
             modelBuilder.Entity("Blog.Domain.Entities.BlogPost", b =>

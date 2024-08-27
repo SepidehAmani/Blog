@@ -4,7 +4,8 @@ using Blog.WebAPI.ExceptionHandler;
 using Blog.WebAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System;
+using Blog.Application.Features.BlogPost.Command;
+using Blog.Application.AutoMapper;
 
 namespace Blog.WebAPI
 {
@@ -13,6 +14,9 @@ namespace Blog.WebAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<BlogDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDb")));
 
             builder.Host.UseSerilog((context, services, configuration) => configuration
                 .ReadFrom.Configuration(context.Configuration));
@@ -27,8 +31,9 @@ namespace Blog.WebAPI
 
             builder.Services.RegisterServices();
 
-            builder.Services.AddDbContext<BlogDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDb")));
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateBlogPostCommandHandler).Assembly));
+
+            builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
