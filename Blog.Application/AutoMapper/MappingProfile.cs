@@ -11,5 +11,7 @@ public class MappingProfile : Profile
         CreateMap<Comment, GetCommentDTO>();
         CreateMap<BlogPost, GetBlogPostWithCommentsDTO>()
             .ForMember(des => des.Comments, opt => opt.MapFrom(src => src.Comments));
+
+        CreateMap<BlogPost, GetBlogpostDTO>();
     }
 }

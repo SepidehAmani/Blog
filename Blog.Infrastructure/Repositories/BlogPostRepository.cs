@@ -45,4 +45,9 @@ public class BlogPostRepository : IBlogPostRepository,IScopedDependency
     {
         return _context.Set<BlogPost>().Where(x => x.Id == id).Include(x=> x.Comments).First();
     }
+
+    public ICollection<BlogPost> GetAll()
+    {
+        return _context.Set<BlogPost>().ToList();
+    }
 }

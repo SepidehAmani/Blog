@@ -22,7 +22,7 @@ public class BlogPost : IEntity
 
     public IEnumerable<Comment>? Comments { get; set; }
 
-    public void SetTitle(string title, IBlogPostRepository blogPostRepository)
+    private void SetTitle(string title, IBlogPostRepository blogPostRepository)
     {
         var anotherBlogPostExists = blogPostRepository.BlogPostExists(x => x.Title == title);
 

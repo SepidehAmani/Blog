@@ -18,6 +18,13 @@ namespace Blog.WebAPI.Controllers
             this.mediator = mediator;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllBlogPosts()
+        {
+            var dto = await mediator.Send(new GetBlogPostsQuery());
+            return Ok(dto);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBlogPost(int id)
         {

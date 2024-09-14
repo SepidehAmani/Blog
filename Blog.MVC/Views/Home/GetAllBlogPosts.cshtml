@@ -1,0 +1,109 @@
+﻿@model ICollection<GetBlogpostDTO>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .blog-post {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+            .blog-post h2 {
+                margin: 0 0 10px;
+            }
+
+            .blog-post p {
+                display: -webkit-box;
+                -webkit-line-clamp: 2; /* Number of lines to display */
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                line-height: 1.6;
+                height: 3.2em; /* Line height * number of lines */
+            }
+
+            .blog-post a {
+                display: inline-block;
+                margin-top: 10px;
+                text-decoration: none;
+                color: #007BFF;
+            }
+
+                .blog-post a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Recent Blog Posts</h1>
+
+        @foreach(var blogPost in Model){
+            <div class="blog-post">
+                <h2>@blogPost.Title</h2>
+                <p>
+                    @blogPost.Description
+                </p>
+                <a asp-action="GetBlogPost" asp-controller="Home" asp-route-id="@blogPost.Id">Read more</a>
+            </div>
+        }
+        @* <div class="blog-post">
+            <h2>Understanding Clean Architecture</h2>
+            <p>
+                Clean Architecture is a software design philosophy that emphasizes separation of concerns, flexibility, and scalability.
+                Learn how to apply Clean Architecture principles to your next project for a more maintainable system.
+            </p>
+            <a href="#">Read more</a>
+        </div>
+
+        <div class="blog-post">
+            <h2>Introduction to CQRS</h2>
+            <p>
+                Command Query Responsibility Segregation (CQRS) is a pattern that can be used to separate reading and writing logic in an application.
+                It is especially useful in complex systems where performance is critical.
+            </p>
+            <a href="#">Read more</a>
+        </div>
+
+        <div class="blog-post">
+            <h2>Effective Unit Testing Strategies</h2>
+            <p>
+                Writing unit tests can greatly improve the quality and reliability of your code. Discover effective strategies for writing
+                maintainable and meaningful unit tests.
+            </p>
+            <a href="#">Read more</a>
+        </div>
+
+        <div class="blog-post">
+            <h2>Exploring Dependency Injection in ASP.NET Core</h2>
+            <p>
+                Dependency Injection (DI) is a powerful technique used in ASP.NET Core to manage object dependencies. Learn how DI can
+                help you build more flexible and testable applications.
+            </p>
+            <a href="#">Read more</a>
+        </div> *@
+
+    </div>
+
+</body>
+</html>
+

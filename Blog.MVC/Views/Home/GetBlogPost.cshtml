@@ -1,0 +1,100 @@
+﻿@model GetBlogPostWithCommentsDTO
+
+
+@* <h3>@Model.Id</h3>
+<h3>@Model.Title</h3>
+<h3>@Model.Description</h3> *@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .blog-post {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .blog-post h1 {
+            margin-bottom: 10px;
+        }
+        .blog-post p {
+            line-height: 1.6;
+        }
+        .comments {
+            margin-top: 40px;
+        }
+        .comment {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .comment h4 {
+            margin: 0 0 5px;
+        }
+        .comment p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="blog-post">
+        <h1>@Model.Title</h1>
+        <p>
+            @Model.Description
+        </p>
+        
+        @* <p>
+            By organizing code into layers such as Domain, Application, Infrastructure, and UI, Clean Architecture makes it easier 
+            to isolate business logic from infrastructure concerns like databases and APIs.
+        </p>
+        
+        <h2>Benefits of Clean Architecture</h2>
+        <p>
+            - Improved testability <br>
+            - Easier to maintain and modify <br>
+            - Independent of frameworks <br>
+            - Facilitates better code organization
+        </p> *@
+    </div>
+
+    <div class="comments">
+        <h3>Comments</h3>
+        
+        @foreach(var comment in Model.Comments)
+        {
+            <div class="comment">
+                <h4>@comment.UserName</h4>
+                <p>@comment.Context</p>
+            </div>
+        }
+        @* <div class="comment">
+            <h4>John Doe</h4>
+            <p>Great post! I've been following the Clean Architecture principles, and it has made my code much easier to maintain.</p>
+        </div>
+        
+        <div class="comment">
+            <h4>Jane Smith</h4>
+            <p>This was super helpful! Can you provide more examples on how to implement it in a real-world application?</p>
+        </div>
+
+        <div class="comment">
+            <h4>Mike Johnson</h4>
+            <p>Clean Architecture is definitely the way to go for scalable systems. Thanks for sharing!</p>
+        </div> *@
+    </div>
+
+</body>
+</html>

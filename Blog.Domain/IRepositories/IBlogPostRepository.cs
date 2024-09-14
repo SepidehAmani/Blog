@@ -11,4 +11,5 @@ public interface IBlogPostRepository
     void DeleteBlogPost(BlogPost blogPost);
     void SaveChanges();
     BlogPost GetbyId(int id);
+    ICollection<BlogPost> GetAll();
 }
