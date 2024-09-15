@@ -1,13 +1,13 @@
-﻿using Blog.Application.Features.BlogPost.Command;
+﻿using Asp.Versioning;
+using Blog.Application.Features.BlogPost.Command;
 using Blog.Application.Features.BlogPost.Query;
-using Blog.Domain.DTOs;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blog.WebAPI.Controllers
+namespace Blog.WebAPI.Controllers.v1
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class BlogController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace Blog.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllBlogPosts()
+        public virtual async Task<IActionResult> GetAllBlogPosts()
         {
             var dto = await mediator.Send(new GetBlogPostsQuery());
             return Ok(dto);
@@ -33,9 +33,9 @@ namespace Blog.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBlogPost(CreateBlogPostCommand createBlogPostCommand)
+        public virtual async Task<IActionResult> CreateBlogPost(CreateBlogPostCommand createBlogPostCommand)
         {
-            if(!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
             var blogPostId = await mediator.Send(createBlogPostCommand);
             return Ok(blogPostId);
         }
@@ -46,6 +46,6 @@ namespace Blog.WebAPI.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
             await mediator.Send(createCommentCommand);
             return Ok();
-        }
+        }        
     }
 }

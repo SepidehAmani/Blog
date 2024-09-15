@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Blog.Application.Features.BlogPost.Command;
 using Blog.Application.AutoMapper;
+using Asp.Versioning;
 
 namespace Blog.WebAPI
 {
@@ -36,7 +37,34 @@ namespace Blog.WebAPI
             builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "My API v1",
+                    Description = "API version 1.0"
+                });
+
+                options.SwaggerDoc("v2", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Version = "v2",
+                    Title = "My API v2",
+                    Description = "API version 2.0"
+                });
+            });
+
+            builder.Services.AddApiVersioning(options =>
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            }).AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
             var app = builder.Build();
 
@@ -44,7 +72,11 @@ namespace Blog.WebAPI
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
+                    options.SwaggerEndpoint("/swagger/v2/swagger.json", "My API v2");
+                });
             }
 
             app.UseHttpsRedirection();
