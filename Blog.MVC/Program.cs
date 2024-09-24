@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Options;
-
 namespace Blog.MVC
 {
     public class Program

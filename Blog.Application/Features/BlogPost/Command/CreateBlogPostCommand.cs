@@ -1,7 +1,4 @@
-﻿using Blog.Domain.DTOs;
-using Blog.Domain.Entities;
-using MediatR;
-using System.ComponentModel.DataAnnotations;
+﻿using MediatR;
 
 namespace Blog.Application.Features.BlogPost.Command
 {

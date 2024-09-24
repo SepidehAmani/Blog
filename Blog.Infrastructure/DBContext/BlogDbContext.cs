@@ -1,14 +1,12 @@
 ﻿using Blog.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Reflection;
-using System.Security.Principal;
 
 namespace Blog.Infrastructure.DBContext;
 
 public class BlogDbContext : DbContext
 {
-    public BlogDbContext(DbContextOptions options) : base(options)
+    public BlogDbContext(DbContextOptions<BlogDbContext> options) : base(options)
     {
     }
 

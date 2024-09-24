@@ -7,6 +7,9 @@ using Serilog;
 using Blog.Application.Features.BlogPost.Command;
 using Blog.Application.AutoMapper;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Blog.WebAPI
 {
@@ -66,6 +69,23 @@ namespace Blog.WebAPI
                 options.SubstituteApiVersionInUrl = true;
             });
 
+
+
+            builder.Services.AddHealthChecks()
+                .AddDbContextCheck<BlogDbContext>()
+                .AddSqlServer(builder.Configuration.GetConnectionString("BlogDb")!, name: "SqlServer",
+                    failureStatus: HealthStatus.Unhealthy);
+               
+
+            builder.Services.AddHealthChecksUI(opt =>
+            {
+                opt.SetEvaluationTimeInSeconds(10); //time in seconds between check    
+                opt.MaximumHistoryEntriesPerEndpoint(60); //maximum history of checks    
+                opt.SetApiMaxActiveRequests(1); //api requests concurrency    
+               
+            }).AddInMemoryStorage();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -78,6 +98,22 @@ namespace Blog.WebAPI
                     options.SwaggerEndpoint("/swagger/v2/swagger.json", "My API v2");
                 });
             }
+            
+            app.MapHealthChecks("/health", new()
+            {
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                ResultStatusCodes =
+                {
+                    [HealthStatus.Healthy] = StatusCodes.Status200OK,
+                    [HealthStatus.Degraded] = StatusCodes.Status200OK,
+                    [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+                }
+            });
+
+            app.MapHealthChecksUI(o =>
+            {
+                o.UIPath = "/healthDashboard";
+            });
 
             app.UseHttpsRedirection();
 

@@ -1,4 +1,5 @@
 ﻿using Blog.Domain.DependencyInjection;
+using Microsoft.Extensions.DependencyModel;
 using Scrutor;
 
 namespace Blog.WebAPI.Services;
@@ -7,39 +8,33 @@ public static class DependencyInjection
 {
     public static IServiceCollection RegisterServices(this IServiceCollection services)
     {
-        services.ManageScopedDependencies();
-        services.ManageTransientDependencies();
-        services.ManageSingletonDependencies();
+
+        services.Scan(scan => scan.FromDependencyContext(DependencyContext.Default, a => !a.FullName.Contains("Microsoft.Data.SqlClient") 
+                && a.DefinedTypes.Any(a => a is { IsClass: true, IsAbstract: false }
+                && a.IsAssignableTo(typeof(ILifeTime))))
+            .AddClassesFromInterfaces());
         return services;
     }
 
-    private static IServiceCollection ManageScopedDependencies(this IServiceCollection services)
+    private static IImplementationTypeSelector AddClassesFromInterfaces(this IImplementationTypeSelector selector)
     {
-        return services.Scan(selector => selector
-            .FromApplicationDependencies(a => !a.FullName.Contains("Microsoft.Data.SqlClient"))
-            .AddClasses(c => c.AssignableTo<IScopedDependency>())
-            .UsingRegistrationStrategy(RegistrationStrategy.Throw)
-            .AsMatchingInterface()
-            .WithScopedLifetime());
-    }
 
-    private static IServiceCollection ManageTransientDependencies(this IServiceCollection services)
-    {
-        return services.Scan(selector => selector
-            .FromApplicationDependencies(a => !a.FullName.Contains("Microsoft.Data.SqlClient"))
+        selector.AddClasses(c => c.AssignableTo<IScopedDependency>())
+            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+            .AsMatchingInterface()
+            .WithScopedLifetime()
+
             .AddClasses(c => c.AssignableTo<ITransientDependency>())
-            .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsMatchingInterface()
-            .WithTransientLifetime());
-    }
+            .WithTransientLifetime()
 
-    private static IServiceCollection ManageSingletonDependencies(this IServiceCollection services)
-    {
-        return services.Scan(selector => selector
-            .FromApplicationDependencies(a => !a.FullName.Contains("Microsoft.Data.SqlClient"))
             .AddClasses(c => c.AssignableTo<ISingletonDependency>())
-            .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsMatchingInterface()
-            .WithSingletonLifetime());
+            .WithSingletonLifetime();
+
+        return selector;
     }
+   
 }

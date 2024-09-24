@@ -1,6 +1,5 @@
 ﻿using Blog.Domain.DTOs;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
 
 namespace Blog.Application.Features.BlogPost.Query;
 

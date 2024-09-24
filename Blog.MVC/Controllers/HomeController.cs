@@ -3,7 +3,6 @@ using Blog.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Text.Json;
 
 namespace Blog.MVC.Controllers
 {

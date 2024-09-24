@@ -1,5 +1,4 @@
-﻿using Blog.Domain.Entities;
-using Blog.Domain.IRepositories;
+﻿using Blog.Domain.IRepositories;
 using MediatR;
 
 namespace Blog.Application.Features.BlogPost.Command;

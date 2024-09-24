@@ -1,5 +1,5 @@
 ﻿namespace Blog.Domain.DependencyInjection;
 
-public interface ISingletonDependency
+public interface ISingletonDependency : ILifeTime
 {
 }

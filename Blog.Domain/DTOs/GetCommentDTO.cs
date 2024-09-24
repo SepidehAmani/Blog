@@ -1,6 +1,4 @@
-﻿using Blog.Domain.Entities;
-
-namespace Blog.Domain.DTOs;
+﻿namespace Blog.Domain.DTOs;
 
 public class GetCommentDTO
 {
